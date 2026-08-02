@@ -3,4 +3,4 @@ title: "Tandem Tales"
 description: "Tandem Tales is a platform that lets people tell short interactive stories together for research."
 baseurl: "/tt" 
 url: "https://sgware.github.io/tt"
-theme: jekyll-theme-minimal
+theme: jekyll-theme-minima
