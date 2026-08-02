@@ -4,3 +4,6 @@ description: "Tandem Tales is a platform that lets people tell short interactive
 baseurl: "/tt" 
 url: "https://sgware.github.io/tt"
 theme: minima
+
+# Layout Customization
+header_pages: []

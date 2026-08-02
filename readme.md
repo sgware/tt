@@ -1,7 +1,4 @@
----
-title: Tandem Tales for Developers
----
+# Tandem Tales Developers Website
 
-# Tandem Tales
-
-Link to [lifecycle](lifecycle.md).
+This repository collects links and documentation for the
+[Tandem Tales](https://sgware.github.io/tt) research platform.
