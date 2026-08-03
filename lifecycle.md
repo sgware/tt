@@ -15,60 +15,60 @@ terminated by a new line character.
     partners.
   - When the agent is ready to play, it sends the
     [Join message](#join-message) with the details of who it is and the settings
-	for the game it wants to play.
+    for the game it wants to play.
   - Once the server has found a compatible partner, it starts a new session and
     sends the [Start message](#start-message) to both agents, which tells them
-	their roles, about the [story world](#world-object), and the world's
+    their roles, about the [story world](#world-object), and the world's
     [initial state](#state-object).
 - During a Session:
   - The game master goes first.
   - On the game master's turn, the game master can `SUCCEED` or `FAIL` any
     number of actions that do not require the player's consent. The game master
-	can `PASS` control to the player. The game master can `PROPOSE` an action if
-	it requires the consent of the player and a non-player character, and then
-	play immediately passes to the player.
+    can `PASS` control to the player. The game master can `PROPOSE` an action if
+    it requires the consent of the player and a non-player character, and then
+    play immediately passes to the player.
   - The player always chooses one action and then passes control back to the
     game master. If the game master's last action was to `PROPOSE` an action,
-	the player must choose whether it will `SUCCEED` or `FAIL`. If the game
-	master's last action was to `PASS`, the player can `PROPOSE` any action that
-	requires the player's consent or `PASS` control back to the game master
-	without choosing an action.
+    the player must choose whether it will `SUCCEED` or `FAIL`. If the game
+    master's last action was to `PASS`, the player can `PROPOSE` any action that
+    requires the player's consent or `PASS` control back to the game master
+    without choosing an action.
   - Each time a turn happens, the server sends an
     [Update message](#update-message) to both agents, which has the history of
-	[turns](#turn-object) taken so far, the current [state](#state-object), and
-	the [choices](#turn-object) that agent can make. An agent knows it is their
-	turn if their [Update message](#update-message) has choices listed.
+    [turns](#turn-object) taken so far, the current [state](#state-object), and
+    the [choices](#turn-object) that agent can make. An agent knows it is their
+    turn if their [Update message](#update-message) has choices listed.
   - When it is an agent's turn, they make a choice by sending a
     [Choice message](#choice-message) to the server with the index of a choice
-	from their last [Update](#update-message).
+    from their last [Update](#update-message).
   - At any time during the session, an agent can send a
     [Report message](#report-message) to the server to record thier answer to a
-	question.
+    question.
 - Ending a Session:
   - If the story reaches one of its pre-defined endings, the
     [Update message](#update-message) sent to both agents will include an
-	[Ending object](#ending-object).
+    [Ending object](#ending-object).
   - Either agent may end the session early by sending a
     [Stop message](#stop-message). Once an agent sends a Stop message, it should
-	not send any more messages to the server, but it may stay connected to wait
-	for the [End message](#end-message).
+    not send any more messages to the server, but it may stay connected to wait
+    for the [End message](#end-message).
   - If an agent disconnects from the server, it is treated as if it had sent a
     [Stop message](#stop-message).
   - The server sends a [Stop message](#stop-message) to the agents when it is
     time for a session to end. This happens when the story reaches a pre-defined
-	ending, when one agent stops the session early, or when the server is
-	shutting down and needs to end all session early.
+    ending, when one agent stops the session early, or when the server is
+    shutting down and needs to end all session early.
   - When an agent receives a [Stop message](#stop-message) (but has not yet sent
     one), it cannot send any more [Choice messages](#choice-message), but it can
-	still send [Report messages](#report-message) to answer questions. Once an
-	agent sends its [Stop message](#stop-message), it cannot send any more
-	messages to the server, but it may stay connected to wait for the
-	[End message](#end-message).
+    still send [Report messages](#report-message) to answer questions. Once an
+    agent sends its [Stop message](#stop-message), it cannot send any more
+    messages to the server, but it may stay connected to wait for the
+    [End message](#end-message).
   - Once the server has sent a [Stop message](#stop-message) to both agents, and
     once both agents have sent a [Stop message](#stop-message) to the server (or
-	effectively sent one by disconnecting), the server sends the
-	[End message](#end-message) to both agents to tell them the session ID
-	number and let them know if it time to disconnect.
+    effectively sent one by disconnecting), the server sends the
+    [End message](#end-message) to both agents to tell them the session ID
+    number and let them know if it time to disconnect.
 
 If an agent does something that is not allowed, the server may send an
 [Error message](#error-message) explaining the problem. Depending on the error,
@@ -78,9 +78,47 @@ it may also disconnect the agent.
 
 # Messages
 
+Messages are encoded in JSON. All messages include the key `type` which defines
+the type of message as a string. Messages are always a single JSON object
+followed by a new line character. If a message contains a new line character, it
+should be encoded.
+
 ## Connect Message
 
-This section coming soon.
+```
+{
+    "type": "Connect",
+    "version": "1.0.0",
+    "worlds": [
+        {
+            "name": "tutorial",
+            "title": "Tutorial",
+            "description": "A simple story about buying a drink that will teach you how to play."
+        }
+    ],
+    "agents": [
+        {
+            "name": "random",
+            "title": "Random",
+            "description": "An agent that makes random choices."
+        }
+    ],
+    "available": [
+        {
+            "agent": "random",
+            "world": "tutorial"
+        }
+    ]
+}
+```
+The `Connect` message is:
+- `version` gives the server's version number.
+- `worlds` is an array of objects describing which worlds the server has
+  publically listed as available. Each has a `name`, `title`, and `description`.
+- `agents` is an array of objects describing which agent types the server has
+  publically listed as available. Each has a `name`, `title`, and `description`.
+- `available` is an array of objects listing agents who are currently connected
+  and looking for partners to play in specific worlds.
 
 ## Join Message
 
@@ -117,6 +155,10 @@ This section coming soon.
 ---
 
 # Objects
+
+Object are encoded in JSON. If an object is being sent as part of a
+[Message](#messages) and contains a new line character, the new line character
+should be encoded to avoid terminating the message prematurely.
 
 ## State Object
 
