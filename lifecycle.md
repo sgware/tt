@@ -152,7 +152,7 @@ ready to start its session.
 ```
 {
     "type": "Start",
-	"role": "GAME_MASTER",
+    "role": "GAME_MASTER",
     "world": # World object #
 }
 ```
@@ -193,8 +193,8 @@ turn to notify the server which turn the agent wants to take.
 {
     "type": "Report",
     "item": "structure",
-	"value": "4",
-	"comment": "strongly agree"
+    "value": "4",
+    "comment": "strongly agree"
 }
 ```
 A `Report` message is sent from the client to the server any time after the
@@ -211,14 +211,14 @@ questions about the story or play experience.
 {
     "type": "Stop",
     "role": "PLAYER",
-	"message": "End the session early."
+    "message": "End the session early."
 }
 ```
 ```
 {
     "type": "Stop",
     "message": "The story has ended.",
-	"ending": # Ending object
+    "ending": # Ending object
 }
 ```
 A `Stop` message can be sent by either the server or client. It can only be sent
@@ -284,4 +284,22 @@ This section coming soon.
 
 ## World Object
 
-This section coming soon.
+```
+{
+    "name": "tutorial",
+    "entities": [ # Entity objects # ],
+    "variables": [ # Variable objects # ],
+    "actions": [ # Action objects # ],
+    "endings": [ # Ending objects # ]
+}
+```
+A story `World` object defines:
+- The `name` of the story world as a string.
+- An array of [Entity objects](#entity-object) defining the objects that exist
+  in the story world.
+- An array of [Variable objects](#variable-object) defining the variables that
+  make up the story world's state.
+- An array of [Action objects](#action-object) defining the actions which can
+  change the story world's state.
+- An array of [Ending objects](#ending-object) defining the possible endings
+  that a story in this world can reach.
