@@ -9,7 +9,7 @@ agent/agent pairs.
   [C++](#make-your-own-agent-c), [Java](#make-your-own-agent-java), or
   [Python](#make-your-own-agent-python).
 - Download the
-  [source code for the Tandem Tales server](https://github.com/sgware/tt-server)
+  [source code for the Tandem Tales Server](https://github.com/sgware/tt-server)
   or check out [this Docker container](https://github.com/sgware/tt-web) that
   has it already installed and configured on a web server.
 - Want to make your own agent from scratch? Read the
