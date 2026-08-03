@@ -79,9 +79,9 @@ it may also disconnect the agent.
 # Messages
 
 Messages are encoded in JSON. All messages include the key `type` which defines
-the type of message as a string. Messages are always a single JSON object
-followed by a new line character. If a message contains a new line character, it
-should be encoded.
+the type of message as a string that starts with a capital letter. Messages are
+always a single JSON object followed by a new line character. If a message
+contains a new line character, it should be encoded.
 
 ## Connect Message
 
@@ -270,17 +270,216 @@ Object are encoded in JSON. If an object is being sent as part of a
 [Message](#messages) and contains a new line character, the new line character
 should be encoded to avoid terminating the message prematurely.
 
+## Action Object
+
+```
+{
+	"id": 0,
+	"name": "go(Player, Shop)",
+	"signature": # Signature object #,
+	"consenting": [ # Entity objects # ],
+	"description": "The player enters the shop.",
+	"code": "0001"
+}
+```
+An `Action` object defines:
+- An `id` number. All actions in a story world are numbered sequentially
+  starting at 0.
+- A `name`, which is the symbol used to refer to that action.
+- A `signature`, which is a [Signature object](#signature-object).
+- An array of `consenting` characters, which is an array of
+  [Entities](#entity-object) that represent the characters in the story who are
+  taking the action. Characters only appear in this array if they are taking the
+  action on purpose. An `attack` action would not list the victim in this array,
+  since the victim is not taking the action on purpose.
+- A `description` as a short natural language phrase.
+- A `code` string, which is always composed of `0`s and `1`s and uniquly
+  identifies the action from other actions in the story world.
+
+## Assignment Object
+
+```
+{
+	"variable": # Variable object #,
+	"value": # Value object #,
+	"visible": true,
+	"description": "The player is outside the shop.",
+	"code": "011"
+}
+```
+An `Assignment` object defines:
+- A `variable` from the story world.
+- The `value` assigned to that variable, which is a
+  [Value object](#value-objects).
+- Whether this assignment is currently `visible` to the client, as a Boolean.
+  All values are always visible to the game master, because the game master
+  always has accurate knowledge of the current state of the story world. If the
+  player cannot currently observe this assignment's variable, then the value
+  will be its last known value, which may not be its actual value.
+- A `description` as a short natural language sentence.
+- A `code` string, which is always composed of `0`s and `1`s and uniquly
+  identifies the value assigned to the variable.
+
+## Constant Object
+
+```
+{
+	"type": "Constant",
+	"value": true
+}
+```
+A `Constant` object defines:
+- A `value`, which represents a fixed value for this constant. Values include
+  `null`, the Boolean values `true` and `false` and numbers. This key is missing
+  or `null` if the constant represents `null`.
+
+## Ending Object
+
+```
+{
+	"id": 3,
+	"name": "bought(Coffee)",	
+	"signature": # Signature object #,
+	"description": "The player purchased a coffee.",
+	"code": "100"
+}
+```
+An `Ending` object defines:
+- An `id` number. All endings in a story world are numbered sequentially
+  starting at 0.
+- A `name`, which is the symbol used to refer to that ending.
+- A `signature`, which is a [Signature object](#signature-object).
+- A `description` as a short natural language phrase.
+- A `code` string, which is always composed of `0`s and `1`s and uniquly
+  identifies the ending from other endings in the story world.
+
+## Entity Object
+
+```
+{
+	"type": "Entity",
+	"id": 1,
+	"name": "Barista",
+	"description": "the barista",
+	"code": "010"
+}
+```
+An `Entity` object defines:
+- An `id` number. All entities in a story world are numbered sequentially
+  starting at 0.
+- A `name`, which is the symbol used to refer to that entity.
+- A `description` as a short natural language phrase.
+- A `code` string, which is always composed of `0`s and `1`s and uniquly
+  identifies the entity from other values in the story world.
+
+## Signature Object
+
+```
+{
+	"name": "at",
+	"arguments": [ # Value objects # ]
+}
+```
+A `signature` is a structure that defines a unique, parameterized object in a
+story world. [Variables](#variable-object), [Actions](#action-object), and
+[Endings](#ending-object) have signatures. It defines:
+- A `name`, which is a relationship that applies to the signature's arguments.
+- An array of `arguments`, which are [Value objects](#value-objects).
+
 ## State Object
 
-This section coming soon.
+```
+{
+	"assignments": [ # Assignment objects # ],
+	"description": "You are standing outside your favorite corner store. ...",
+    "code": "011100001000000"
+}
+```
+A `State` object defines:
+- An array of [Assignment objects](#assignment-object) that give a value for
+  each of the [variables](#variable-object) in a story world.
+- A natural language `description` of the current state or what has changed
+  since the previous state.
+- A `code` string, which is always composed of `0`s and `1`s and uniquly
+  identifies the state from other possible states the story would could be in.
 
 ## Status Object
 
-This section coming soon.
+```
+{
+	"role": "GAME_MASTER",
+	"history": [ # Turn objects # ],
+	"state": # State object #,
+	"descriptions": [ # Entity objects # ],
+	"choices": [ # Turn objects # ]
+}
+```
+A `Status` object defines:
+- The `role` the client this object was sent to is playing in the story world.
+- The `history` of [Turns](#turn-object) taken so far in the story.
+- The current `state` of the story world.
+- The `descriptions` of objects currently visible to the client. Descriptions
+  are sent as [Entity objects](#entity-object) so they can be matched by their
+  names and ID numbers, but the `description` key will be a longer, more
+  detailed description that the short phrase usually given to an entity.
+- The `choices` currently available to the client, as an array of
+  [Turn objects](#turn-object). This array will be missing, `null`, or empty if
+  it is not currently the client's turn.
 
 ## Turn Object
 
-This section coming soon.
+```
+{
+	"role": "PLAYER",
+	"type": "PROPOSE",
+	"action": # Action object #,
+	"description": "The player offers some money to the barista.",
+	"code": "1000111"
+}
+```
+A `Turn` object defines:
+- The `role` who took (or will take) this turn.
+- The `type` of action, which is either `SUCCEED`, `FAIL`, `PROPOSE` or `PASS`.
+- The `action` that happens as part of this turn. This will be missing or `null`
+  if the type is `PASS`.
+- A `description` as a short natural language sentence.
+- A `code` string, which is always composed of `0`s and `1`s and uniquly
+  identifies the turn from other possible turns.
+
+There are four turn types:
+- `SUCCEED` means the action occurs and is narrated.
+- `FAIL` means the action does not occur, but an attempt at the action is
+  narrated.
+- `PROPOSE` means the action requires the other client to agree to it. The other
+  client will need to choose `SUCCEED` or `FAIL`.
+- `PASS` means no action occurs and the client gives control of the story to its
+  partner.
+
+## Value Objects
+
+The following are considered `Value` objects:
+- [Constants](#constant-object)
+- [Entities](#entity-object)
+
+## Variable Object
+
+```
+{
+	"type": "Variable",
+	"id": 0,
+	"name": "at(Player)",
+	"signature": # Signature object #,
+	"encoding": "entity3",
+	"description": "the player's location"
+}
+```
+An `Variable` object defines:
+- An `id` number. All variables in a story world are numbered sequentially
+  starting at 0.
+- A `name`, which is the symbol used to refer to that variable.
+- A `signature`, which is a [Signature object](#signature-object).
+- An `encoding`, which defines the type of values that variable can have.
+- A `description` as a short natural language phrase.
 
 ## World Object
 
