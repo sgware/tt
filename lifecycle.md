@@ -32,12 +32,12 @@ terminated by a new line character.
 	the player must choose whether it will `SUCCEED` or `FAIL`. If the game
 	master's last action was to `PASS`, the player can `PROPOSE` any action that
 	requires the player's consent or `PASS` control back to the game master
-	instead of choosing an action.
+	without choosing an action.
   - Each time a turn happens, the server sends an
     [Update message](#update-message) to both agents, which has the history of
 	[turns](#turn-object) taken so far, the current [state](#state-object), and
 	the [choices](#turn-object) that agent can make. An agent knows it is their
-	turn if their [Update](#update-message) has choices listed.
+	turn if their [Update message](#update-message) has choices listed.
   - When it is an agent's turn, they make a choice by sending a
     [Choice message](#choice-message) to the server with the index of a choice
 	from their last [Update](#update-message).
@@ -76,6 +76,8 @@ it may also disconnect the agent.
 
 ---
 
+# Messages
+
 ## Connect Message
 
 This section coming soon.
@@ -113,6 +115,8 @@ This section coming soon.
 This section coming soon.
 
 ---
+
+# Objects
 
 ## State Object
 
