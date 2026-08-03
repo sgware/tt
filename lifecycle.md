@@ -42,7 +42,7 @@ terminated by a new line character.
     [Choice message](#choice-message) to the server with the index of a choice
     from their last [Update](#update-message).
   - At any time during the session, an agent can send a
-    [Report message](#report-message) to the server to record thier answer to a
+    [Report message](#report-message) to the server to record their answer to a
     question.
 - Ending a Session:
   - If the story reaches one of its pre-defined endings, the
@@ -57,7 +57,7 @@ terminated by a new line character.
   - The server sends a [Stop message](#stop-message) to the agents when it is
     time for a session to end. This happens when the story reaches a pre-defined
     ending, when one agent stops the session early, or when the server is
-    shutting down and needs to end all session early.
+    shutting down and needs to end all sessions early.
   - When an agent receives a [Stop message](#stop-message) (but has not yet sent
     one), it cannot send any more [Choice messages](#choice-message), but it can
     still send [Report messages](#report-message) to answer questions. Once an
@@ -68,7 +68,7 @@ terminated by a new line character.
     once both agents have sent a [Stop message](#stop-message) to the server (or
     effectively sent one by disconnecting), the server sends the
     [End message](#end-message) to both agents to tell them the session ID
-    number and let them know if it time to disconnect.
+    number and let them know it is time to disconnect.
 
 If an agent does something that is not allowed, the server may send an
 [Error message](#error-message) explaining the problem. Depending on the error,
@@ -115,9 +115,9 @@ The `Connect` message is sent from the server to the client as soon as a new
 socket is opened.
 - `version` gives the server's version number as a string.
 - `worlds` is an array of objects describing which worlds the server has
-  publically listed as available. Each has a `name`, `title`, and `description`.
+  publicly listed as available. Each has a `name`, `title`, and `description`.
 - `agents` is an array of objects describing which agent types the server has
-  publically listed as available. Each has a `name`, `title`, and `description`.
+  publicly listed as available. Each has a `name`, `title`, and `description`.
 - `available` is an array of objects listing agents who are currently connected
   and looking for partners to play in specific worlds. Each has an `agent` and
   `world`.
@@ -266,7 +266,7 @@ a [Choice message](#choice-message) at the wrong time or with an invalid index).
 
 # Objects
 
-Object are encoded in JSON. If an object is being sent as part of a
+Objects are encoded in JSON. If an object is being sent as part of a
 [Message](#messages) and contains a new line character, the new line character
 should be encoded to avoid terminating the message prematurely.
 
@@ -293,7 +293,7 @@ An `Action` object defines:
   action on purpose. An `attack` action would not list the victim in this array,
   since the victim is not taking the action on purpose.
 - A `description` as a short natural language phrase.
-- A `code` string, which is always composed of `0`s and `1`s and uniquly
+- A `code` string, which is always composed of `0`s and `1`s and uniquely
   identifies the action from other actions in the story world.
 
 ## Assignment Object
@@ -317,7 +317,7 @@ An `Assignment` object defines:
   player cannot currently observe this assignment's variable, then the value
   will be its last known value, which may not be its actual value.
 - A `description` as a short natural language sentence.
-- A `code` string, which is always composed of `0`s and `1`s and uniquly
+- A `code` string, which is always composed of `0`s and `1`s and uniquely
   identifies the value assigned to the variable.
 
 ## Constant Object
@@ -350,7 +350,7 @@ An `Ending` object defines:
 - A `name`, which is the symbol used to refer to that ending.
 - A `signature`, which is a [Signature object](#signature-object).
 - A `description` as a short natural language phrase.
-- A `code` string, which is always composed of `0`s and `1`s and uniquly
+- A `code` string, which is always composed of `0`s and `1`s and uniquely
   identifies the ending from other endings in the story world.
 
 ## Entity Object
@@ -369,7 +369,7 @@ An `Entity` object defines:
   starting at 0.
 - A `name`, which is the symbol used to refer to that entity.
 - A `description` as a short natural language phrase.
-- A `code` string, which is always composed of `0`s and `1`s and uniquly
+- A `code` string, which is always composed of `0`s and `1`s and uniquely
   identifies the entity from other values in the story world.
 
 ## Signature Object
@@ -400,8 +400,8 @@ A `State` object defines:
   each of the [variables](#variable-object) in a story world.
 - A natural language `description` of the current state or what has changed
   since the previous state.
-- A `code` string, which is always composed of `0`s and `1`s and uniquly
-  identifies the state from other possible states the story would could be in.
+- A `code` string, which is always composed of `0`s and `1`s and uniquely
+  identifies the state from other possible states the story could be in.
 
 ## Status Object
 
@@ -421,7 +421,7 @@ A `Status` object defines:
 - The `descriptions` of objects currently visible to the client. Descriptions
   are sent as [Entity objects](#entity-object) so they can be matched by their
   names and ID numbers, but the `description` key will be a longer, more
-  detailed description that the short phrase usually given to an entity.
+  detailed description than the short phrase usually given to an entity.
 - The `choices` currently available to the client, as an array of
   [Turn objects](#turn-object). This array will be missing, `null`, or empty if
   it is not currently the client's turn.
@@ -443,7 +443,7 @@ A `Turn` object defines:
 - The `action` that happens as part of this turn. This will be missing or `null`
   if the type is `PASS`.
 - A `description` as a short natural language sentence.
-- A `code` string, which is always composed of `0`s and `1`s and uniquly
+- A `code` string, which is always composed of `0`s and `1`s and uniquely
   identifies the turn from other possible turns.
 
 There are four turn types:
@@ -473,7 +473,7 @@ The following are considered `Value` objects:
 	"description": "the player's location"
 }
 ```
-An `Variable` object defines:
+A `Variable` object defines:
 - An `id` number. All variables in a story world are numbered sequentially
   starting at 0.
 - A `name`, which is the symbol used to refer to that variable.
