@@ -1,5 +1,5 @@
 ---
-title: Tandem Tales Agent Lifecycle
+title: Tandem Tales Agent Protocol
 ---
 
 A Tandem Tales agent connects to the
