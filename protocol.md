@@ -274,12 +274,12 @@ should be encoded to avoid terminating the message prematurely.
 
 ```
 {
-	"id": 0,
-	"name": "go(Player, Shop)",
-	"signature": # Signature object #,
-	"consenting": [ # Entity objects # ],
-	"description": "The player enters the shop.",
-	"code": "0001"
+    "id": 0,
+    "name": "go(Player, Shop)",
+    "signature": # Signature object #,
+    "consenting": [ # Entity objects # ],
+    "description": "The player enters the shop.",
+    "code": "0001"
 }
 ```
 An `Action` object defines:
@@ -300,11 +300,11 @@ An `Action` object defines:
 
 ```
 {
-	"variable": # Variable object #,
-	"value": # Value object #,
-	"visible": true,
-	"description": "The player is outside the shop.",
-	"code": "011"
+    "variable": # Variable object #,
+    "value": # Value object #,
+    "visible": true,
+    "description": "The player is outside the shop.",
+    "code": "011"
 }
 ```
 An `Assignment` object defines:
@@ -324,8 +324,8 @@ An `Assignment` object defines:
 
 ```
 {
-	"type": "Constant",
-	"value": true
+    "type": "Constant",
+    "value": true
 }
 ```
 A `Constant` object defines:
@@ -337,11 +337,11 @@ A `Constant` object defines:
 
 ```
 {
-	"id": 3,
-	"name": "bought(Coffee)",	
-	"signature": # Signature object #,
-	"description": "The player purchased a coffee.",
-	"code": "100"
+    "id": 3,
+    "name": "bought(Coffee)",   
+    "signature": # Signature object #,
+    "description": "The player purchased a coffee.",
+    "code": "100"
 }
 ```
 An `Ending` object defines:
@@ -357,11 +357,11 @@ An `Ending` object defines:
 
 ```
 {
-	"type": "Entity",
-	"id": 1,
-	"name": "Barista",
-	"description": "the barista",
-	"code": "010"
+    "type": "Entity",
+    "id": 1,
+    "name": "Barista",
+    "description": "the barista",
+    "code": "010"
 }
 ```
 An `Entity` object defines:
@@ -376,8 +376,8 @@ An `Entity` object defines:
 
 ```
 {
-	"name": "at",
-	"arguments": [ # Value objects # ]
+    "name": "at",
+    "arguments": [ # Value objects # ]
 }
 ```
 A `signature` is a structure that defines a unique, parameterized object in a
@@ -390,8 +390,8 @@ story world. [Variables](#variable-object), [Actions](#action-object), and
 
 ```
 {
-	"assignments": [ # Assignment objects # ],
-	"description": "You are standing outside your favorite corner store. ...",
+    "assignments": [ # Assignment objects # ],
+    "description": "You are standing outside your favorite corner store. ...",
     "code": "011100001000000"
 }
 ```
@@ -407,11 +407,11 @@ A `State` object defines:
 
 ```
 {
-	"role": "GAME_MASTER",
-	"history": [ # Turn objects # ],
-	"state": # State object #,
-	"descriptions": [ # Entity objects # ],
-	"choices": [ # Turn objects # ]
+    "role": "GAME_MASTER",
+    "history": [ # Turn objects # ],
+    "state": # State object #,
+    "descriptions": [ # Entity objects # ],
+    "choices": [ # Turn objects # ]
 }
 ```
 A `Status` object defines:
@@ -430,11 +430,11 @@ A `Status` object defines:
 
 ```
 {
-	"role": "PLAYER",
-	"type": "PROPOSE",
-	"action": # Action object #,
-	"description": "The player offers some money to the barista.",
-	"code": "1000111"
+    "role": "PLAYER",
+    "type": "PROPOSE",
+    "action": # Action object #,
+    "description": "The player offers some money to the barista.",
+    "code": "1000111"
 }
 ```
 A `Turn` object defines:
@@ -465,12 +465,12 @@ The following are considered `Value` objects:
 
 ```
 {
-	"type": "Variable",
-	"id": 0,
-	"name": "at(Player)",
-	"signature": # Signature object #,
-	"encoding": "entity3",
-	"description": "the player's location"
+    "type": "Variable",
+    "id": 0,
+    "name": "at(Player)",
+    "signature": # Signature object #,
+    "encoding": "entity3",
+    "description": "the player's location"
 }
 ```
 A `Variable` object defines:
