@@ -111,46 +111,156 @@ should be encoded.
     ]
 }
 ```
-The `Connect` message is:
-- `version` gives the server's version number.
+The `Connect` message is sent from the server to the client as soon as a new
+socket is opened.
+- `version` gives the server's version number as a string.
 - `worlds` is an array of objects describing which worlds the server has
   publically listed as available. Each has a `name`, `title`, and `description`.
 - `agents` is an array of objects describing which agent types the server has
   publically listed as available. Each has a `name`, `title`, and `description`.
 - `available` is an array of objects listing agents who are currently connected
-  and looking for partners to play in specific worlds.
+  and looking for partners to play in specific worlds. Each has an `agent` and
+  `world`.
 
 ## Join Message
 
-This section coming soon.
+```
+{
+    "type": "Join",
+    "name": "web",
+    "password": "dummy",
+    "world": "tutorial",
+    "role": "PLAYER",
+    "partner": "random"
+}
+```
+The `Join` message is sent from the client to the server when the client is
+ready to start its session.
+- `name` gives the client's agent type. It does not need to be unique.
+- `password` gives the client's password. A password is only required if the
+  client's name is reserved on the server.
+- `world` is the name of the story world the client wants to play in. If this
+  is missing or `null`, the client is willing to play in any world.
+- `role` is the role the client wants to have in the story. It can be `PLAYER`
+  or `GAME_MASTER`. If this is missing or `null`, the client is willing to play
+  as either role.
+- `partner` is the agent type the client wants to play with. If this is missing
+  or `null`, the client is willing to play with any partner.
 
 ## Start Message
 
-This section coming soon.
+```
+{
+    "type": "Start",
+	"role": "GAME_MASTER",
+    "world": # World object #
+}
+```
+The `Start` message is sent from the server to the client once the server has
+found a compatible pair of agents and started a new session.
+- `role` is the client's role in the story. It will be either `PLAYER` or
+  `GAME_MASTER`.
+- `world` is a [World object](#world-object).
 
 ## Update Message
 
-This section coming soon.
+```
+{
+    "type": "Update",
+    "status": # Status object #
+}
+```
+An `Update` message is sent from the server to the client each time the state of
+the world changes.
+- `status` is a [Status object](#status-object).
 
 ## Choice Message
 
-This section coming soon.
+```
+{
+    "type": "Choice",
+    "index": 3
+}
+```
+A `Choice` message is sent from the client to the server when it is the client's
+turn to notify the server which turn the agent wants to take.
+- `index` is the array index (starting at 0) of a choice from the most recent
+  [Update message](#update-message) sent to the agent.
 
 ## Report Message
 
-This section coming soon.
+```
+{
+    "type": "Report",
+    "item": "structure",
+	"value": "4",
+	"comment": "strongly agree"
+}
+```
+A `Report` message is sent from the client to the server any time after the
+server sends the [Start message](#start-message) and before the client sends
+their [Stop message](#stop-message). It is used by the client to answer
+questions about the story or play experience.
+- `item` is the name of the question the client is answering.
+- `value` is the client's answer to the question as a string.
+- `comment` is a comment on the value as a string.
 
 ## Stop Message
 
-This section coming soon.
+```
+{
+    "type": "Stop",
+    "role": "PLAYER",
+	"message": "End the session early."
+}
+```
+```
+{
+    "type": "Stop",
+    "message": "The story has ended.",
+	"ending": # Ending object
+}
+```
+A `Stop` message can be sent by either the server or client. It can only be sent
+by either party after the server has sent the [Start message](#start-message).
+The client can end the session early by sending this message. The server sends
+this message if the story reaches one of its pre-defined
+[endings](#ending-object), if the client's partner ended the session early or
+disconnected, or if the server needs to end the session early (i.e. because it
+is shutting down).
+- `role` identifies which client ended the session early. This should be missing
+  or `null` if the story reached a pre-defined ending or if the server is ending
+  the session early.
+- `message` is an explanation for why the session is ending.
+- `ending` is an [Ending object](#ending-object). This should be set if the
+  message is coming from the server and the story reached a pre-defined ending;
+  otherwise, it should be missing or `null`.
 
 ## End Message
 
-This section coming soon.
+```
+{
+    "type": "End",
+    "session": "MWD7D5R590"
+}
+```
+The `End` message is sent by the server to the client once the session is
+complete and the client can disconnect.
+- `session` is a unique ID string that identifies the session in the server
+  logs.
 
 ## Error Message
 
-This section coming soon.
+```
+{
+    "type": "Error",
+    "message": "The message could not be parsed as a JSON object."
+}
+```
+An `Error` message is sent from the server to the client if it cannot parse the
+client's message or if the message has invalid values (i.e. if the client sends
+a [Choice message](#choice-message) at the wrong time or with an invalid index).
+- `message` is a string that explains the problem.
 
 ---
 
