@@ -22,11 +22,13 @@ This section coming soon.
 
 ## Make Your Own Agent: Java
 
-This section coming soon.
+Prefer to read this tutorial instead? Check out the
+[Tandem Tales Random Agent (Java)](https://github.com/sgware/tt-random-agent-java).
 
 ## Make Your Own Agent: Python
 
-This section coming soon.
+Prefer to read this tutorial instead? Check out the
+[Tandem Tales Random Agent (Python)](https://github.com/sgware/tt-random-agent-python).
 
 ## Documentation
 
