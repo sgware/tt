@@ -38,4 +38,7 @@ Prefer to read this tutorial instead? Check out the
 
 ## Other Projects
 
-This section coming soon.
+- [TandemTalesEnv](https://github.com/Mira2778/tandemtales_gym) lets you run a
+  Tandem Tales story world as an [AI Gymnasium](https://gymnasium.farama.org/)
+  environment. Gymnasium is a popular framework for training Reinforcement
+  Learning agents.
