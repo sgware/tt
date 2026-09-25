@@ -18,7 +18,8 @@ agent/agent pairs.
 
 ## Make Your Own Agent: C++
 
-This section coming soon.
+Prefer to read this tutorial instead? Check out the
+[Tandem Tales Random Agent (C++)](https://github.com/gsbirch/tt-random-agent-cpp).
 
 ## Make Your Own Agent: Java
 
@@ -42,3 +43,7 @@ Prefer to read this tutorial instead? Check out the
   Tandem Tales story world as an [AI Gymnasium](https://gymnasium.farama.org/)
   environment. Gymnasium is a popular framework for training Reinforcement
   Learning agents.
+- The
+  [Tandem Tales Logical Story World Expander](https://github.com/sgware/sg-tt-expand)
+  generates all possible states in a Tandem Tales story world and saves them to
+	a [story graph file](https://github.com/sgware/story-graph).
