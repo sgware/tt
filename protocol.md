@@ -410,6 +410,7 @@ A `State` object defines:
     "role": "GAME_MASTER",
     "history": [ # Turn objects # ],
     "state": # State object #,
+		"ending": # Ending object #,
     "descriptions": [ # Entity objects # ],
     "choices": [ # Turn objects # ]
 }
@@ -418,6 +419,8 @@ A `Status` object defines:
 - The `role` the client this object was sent to is playing in the story world.
 - The `history` of [Turns](#turn-object) taken so far in the story.
 - The current `state` of the story world.
+- The `ending` of the story, if one has been reached. This will be missing or
+  null if the story has not yet ended.
 - The `descriptions` of objects currently visible to the client. Descriptions
   are sent as [Entity objects](#entity-object) so they can be matched by their
   names and ID numbers, but the `description` key will be a longer, more
